@@ -1,0 +1,20 @@
+{
+  "app_id": {
+	"label": "Application ID",
+	"type": "String",
+	"required": true,
+	"help": "Please provide your Parse Application ID."
+  },
+  "api_key": {
+	"label": "API Key",
+	"type": "String",
+	"required": true,
+	"help": "Please provide your Parse API Key."
+  },
+  "data_class": {
+    "label": "Class",
+    "type": "String",
+    "required": true,
+    "help": "Please provide your Parse Class Name."
+  }
+}
