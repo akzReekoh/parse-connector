@@ -28,12 +28,24 @@ platform.once('close', function () {
 });
 
 platform.once('ready', function (options) {
-    var Parse = require('parse/node');
+    var domain = require('domain'),
+        d = domain.create();
 
-    Parse.initialize(options.app_id, options.javascript_key);
-    var DataObject = Parse.Object.extend(options.data_class);
-    parseObject = new DataObject();
+    d.once('error', function(error){
+        console.error(error);
+        platform.handleException(error);
+        d.exit();
+    });
 
-    platform.log('Parse Connector Initialized.');
-	platform.notifyReady();
+    d.run(function(){
+        var Parse = require('parse/node');
+
+        Parse.initialize(options.app_id, options.javascript_key);
+        var DataObject = Parse.Object.extend(options.data_class);
+        parseObject = new DataObject();
+
+        platform.log('Parse Connector Initialized.');
+        platform.notifyReady();
+        d.exit();
+    });
 });
