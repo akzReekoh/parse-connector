@@ -1,7 +1,7 @@
 'use strict';
 
 const APP_ID = '5GwhgEyOkTX2ebfN8ULSh23HArd1BU8WNxt6NEQ7',
-    API_KEY = 'gjbMU1YxRDk2epyNSMTJ7tiS8CORQ5lLNa6T04bU',
+    JAVASCRIPT_KEY = '8FEIc5Pq7BpCFDuiyLz59sYT88NzbLoXDuzoRzlQ',
     DATA_CLASS = 'data';
 
 var cp     = require('child_process'),
@@ -37,7 +37,7 @@ describe('Connector', function () {
 				data: {
 					options: {
 						app_id: APP_ID,
-						api_key: API_KEY,
+						javascript_key: JAVASCRIPT_KEY,
                         data_class : DATA_CLASS
 					}
 				}
@@ -58,19 +58,4 @@ describe('Connector', function () {
 			}, done);
 		});
 	});
-
-    describe('#stressTest', function (done) {
-        it('should process the data 200 times', function () {
-            for( var c = 0; c < 200; c++){
-                connector.send({
-                    type: 'data',
-                    data: {
-                        title: 'Test Message',
-                        message: 'This is a test message from Parse Connector.'
-                    }
-                }, done);
-                setTimeout(function(){}, 1000);
-            }
-        });
-    });
 });

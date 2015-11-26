@@ -5,11 +5,11 @@
 	"required": true,
 	"help": "Please provide your Parse Application ID."
   },
-  "api_key": {
-	"label": "API Key",
+  "javascript_key": {
+	"label": "JavaScript Key",
 	"type": "String",
 	"required": true,
-	"help": "Please provide your Parse API Key."
+	"help": "Please provide your Parse JavaScript Key."
   },
   "data_class": {
     "label": "Class",

@@ -13,7 +13,7 @@ This plugin sends data from devices connected to the Reekoh Instance to Parse.
 To configure this plugin a Parse account, application and class is needed in order to provide the following:
 
 1. Application ID - The Parse Application ID to use.
-2. REST API Key -  The Parse Application's corresponding REST API Key.
+2. JavaScirpt Key -  The Parse Application's corresponding JavaScript Key.
 3. Class Name - The Parse Class Name in which the data will be added.
 
 These parameters are then injected to the plugin from the platform.

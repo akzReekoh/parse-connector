@@ -2,32 +2,20 @@
 
 var platform = require('./platform'),
     isPlainObject = require('lodash.isplainobject'),
-    request = require('request'),
-	config;
+	parseObject;
 
 platform.on('data', function (data) {
     if(isPlainObject(data)){
-        var options = {
-            method: 'POST',
-            url: 'https://api.parse.com/1/classes/' + config.data_class,
-            headers:
-                {
-                    'x-parse-rest-api-key': config.api_key,
-                    'x-parse-application-id': config.app_id
-                },
-            body: JSON.stringify(data)
-        };
-
-        request(options, function (error, response, body) {
-            if (error){
-                console.error(error);
-                platform.handleException(error);
-            }
-            else{
+        parseObject.save(data,{
+            success : function(response){
                 platform.log(JSON.stringify({
-                    title: 'Data Sent to Parse.',
+                    title: 'Parse object saved.',
                     data: data
                 }));
+            },
+            error : function(response, error){
+                console.error(error);
+                platform.handleException(error);
             }
         });
     }
@@ -40,7 +28,11 @@ platform.once('close', function () {
 });
 
 platform.once('ready', function (options) {
-    config = options;
+    var Parse = require('parse/node');
+
+    Parse.initialize(options.app_id, options.javascript_key);
+    var DataObject = Parse.Object.extend(options.data_class);
+    parseObject = new DataObject();
 
     platform.log('Parse Connector Initialized.');
 	platform.notifyReady();
