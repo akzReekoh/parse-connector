@@ -44,7 +44,7 @@ platform.once('ready', function (options) {
         var DataObject = Parse.Object.extend(options.data_class);
         parseObject = new DataObject();
 
-        platform.log('Parse Connector Initialized.');
+        platform.log('Parse Storage Initialized.');
         platform.notifyReady();
         d.exit();
     });
