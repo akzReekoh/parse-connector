@@ -28,7 +28,6 @@ var isError = function (val) {
  */
 function Platform() {
 	if (!(this instanceof Platform)) return new Platform();
-
 	EventEmitter.call(this);
 	Platform.init.call(this);
 }
@@ -40,6 +39,15 @@ inherits(Platform, EventEmitter);
  */
 Platform.init = function () {
 	var self = this;
+
+	process.on('SIGINT', function () {
+		self.emit('close');
+
+		setTimeout(function () {
+			self.removeAllListeners();
+			process.exit();
+		}, 2000);
+	});
 
 	process.on('SIGTERM', function () {
 		self.emit('close');
