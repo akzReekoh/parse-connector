@@ -2,25 +2,36 @@
 
 var platform = require('./platform'),
     isPlainObject = require('lodash.isplainobject'),
+    isArray = require('lodash.isarray'),
+    async = require('async'),
 	parseObject;
+
+let sendData = (data) => {
+    parseObject.save(data,{
+        success : function(response){
+            platform.log(JSON.stringify({
+                title: 'Parse object saved.',
+                data: data
+            }));
+        },
+        error : function(response, error){
+            console.error(error);
+            platform.handleException(error);
+        }
+    });
+};
 
 platform.on('data', function (data) {
     if(isPlainObject(data)){
-        parseObject.save(data,{
-            success : function(response){
-                platform.log(JSON.stringify({
-                    title: 'Parse object saved.',
-                    data: data
-                }));
-            },
-            error : function(response, error){
-                console.error(error);
-                platform.handleException(error);
-            }
+        sendData(data);
+    }
+    else if(isArray(data)){
+        async.each(data, function(datum){
+            sendData(datum);
         });
     }
     else
-        platform.handleException(new Error('Invalid data received. Must be a valid JSON Object. Data ' + data));
+        platform.handleException(new Error(`Invalid data received. Data must be a valid Array/JSON Object or a collection of objects. Data: ${data}`));
 });
 
 platform.once('close', function () {

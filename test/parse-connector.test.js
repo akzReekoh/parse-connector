@@ -11,9 +11,12 @@ var cp     = require('child_process'),
 describe('Connector', function () {
 	this.slow(5000);
 
-	after('terminate child process', function () {
+	after('terminate child process', function (done) {
+		this.timeout(7000);
+
         setTimeout(function(){
             connector.kill('SIGKILL');
+			done();
         }, 5000);
 	});
 
@@ -51,10 +54,16 @@ describe('Connector', function () {
 		it('should process the data', function () {
 			connector.send({
 				type: 'data',
-				data: {
-					title: 'Test Message',
-					message: 'This is a test message from Parse Connector.'
-				}
+				data: [
+					{
+						title: 'Test Message',
+						message: 'This is a test message from Parse Connector.'
+					},
+					{
+						title: 'Test Message',
+						message: 'This is a test message from Parse Connector.'
+					}
+				]
 			}, done);
 		});
 	});
